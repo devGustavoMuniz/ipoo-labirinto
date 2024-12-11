@@ -1,4 +1,4 @@
-import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot, and MouseInfo)
+import greenfoot.*;
 
 public class Labirinto extends World {
     private int pontos;

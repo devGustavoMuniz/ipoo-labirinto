@@ -1,8 +1,8 @@
-import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot, and MouseInfo)
+import greenfoot.*;
 
 public class TelaInicial extends World {
     public TelaInicial() {    
-        super(600, 400, 1);  // Dimensões do mundo
+        super(600, 400, 1);
         showText("Escape do Labirinto", 300, 150);
         showText("Pressione ENTER para começar", 300, 200);
     }

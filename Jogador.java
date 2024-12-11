@@ -4,7 +4,7 @@ public class Jogador extends Actor {
 
     public Jogador() {
         GreenfootImage imagem = new GreenfootImage("necro.png");
-        imagem.scale(imagem.getWidth() / 2, imagem.getHeight() / 2); // Reduz a imagem pela metade
+        imagem.scale(imagem.getWidth() / 2, imagem.getHeight() / 2);
         setImage(imagem);
     }
     
@@ -37,7 +37,7 @@ public class Jogador extends Actor {
         if (isTouching(Porta.class)) {
             Labirinto mundo = (Labirinto)getWorld();
             if (mundo.getObjects(Chave.class).isEmpty()) {
-                mundo.finalizarJogo(true); // Vitória
+                mundo.finalizarJogo(true);
             }
         }
     }

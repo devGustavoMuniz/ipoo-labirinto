@@ -1,7 +1,7 @@
-import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot, and MouseInfo)
+import greenfoot.*;
 
 public class Chave extends Actor {
     public Chave() {
-        setImage("key.png"); // Adicione uma imagem chamada 'key.png' ao projeto
+        setImage("key.png");
     }
 }
