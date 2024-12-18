@@ -1,23 +1,66 @@
 import greenfoot.*;
 
 public class Labirinto extends World {
+    private int tamanhoBloco = 40; // Tamanho de cada bloco (largura e altura)
     private int pontos;
-
     public Labirinto() {    
         super(600, 400, 1);
         pontos = 0;
+        criarFundoPreto(); // Define o fundo do labirinto como preto
+        criarLabirinto();
         prepare();
     }
 
-    private void prepare() {
-        Jogador jogador = new Jogador();
-        addObject(jogador, 50, 200);
-        
-        Chave chave = new Chave();
-        addObject(chave, 300, 200);
+    private void criarFundoPreto() {
+        GreenfootImage bg = new GreenfootImage(600, 400);
+        bg.setColor(Color.BLACK);
+        bg.fill();
+        setBackground(bg);
+    }
 
+    private void criarLabirinto() {
+        // Matriz que define o labirinto (1 = parede, 0 = caminho)
+        int[][] labirinto = {
+            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+            {1,0,0,0,1,0,0,0,0,0,0,0,0,0,1},
+            {1,0,1,0,1,0,1,1,1,0,1,1,1,0,1},
+            {1,0,1,0,0,0,0,0,1,0,0,0,1,0,1},
+            {1,1,1,1,1,1,1,0,1,1,1,0,1,0,1},
+            {1,0,0,0,0,0,1,0,0,0,1,0,1,0,1},
+            {1,0,1,1,1,0,1,1,1,0,1,0,1,1,1},
+            {1,0,0,0,1,0,0,0,0,0,1,0,0,0,1},
+            {1,1,1,0,1,1,1,1,1,0,1,1,1,0,1},
+            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
+        };
+
+        // Percorrer a matriz e adicionar paredes
+        for (int linha = 0; linha < labirinto.length; linha++) {
+            for (int coluna = 0; coluna < labirinto[linha].length; coluna++) {
+                if (labirinto[linha][coluna] == 1) {
+                    int x = coluna * tamanhoBloco + tamanhoBloco / 2;
+                    int y = linha * tamanhoBloco + tamanhoBloco / 2;
+                    addObject(new Parede(), x, y);
+                }
+            }
+        }
+    }
+
+    private void prepare() {
+        // Adicionar o jogador fora das paredes
+        Jogador jogador = new Jogador();
+        jogador.getImage().scale(30, 30); // Reduzir tamanho
+        addObject(jogador, 60, 140);
+
+        // Adicionar a chave
+        Chave chave = new Chave();
+        chave.getImage().scale(20, 20);
+        addObject(chave, 540, 350);
+
+        // Adicionar a porta
         Porta porta = new Porta();
-        addObject(porta, 550, 200);
+        porta.getImage().scale(40, 60);
+        addObject(porta, 540, 229);
+    
     }
 
     public void adicionarPontos(int valor) {
