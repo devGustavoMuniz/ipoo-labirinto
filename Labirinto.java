@@ -54,13 +54,27 @@ public class Labirinto extends World {
         // Adicionar a chave
         Chave chave = new Chave();
         chave.getImage().scale(20, 20);
-        addObject(chave, 540, 350);
+        addObject(chave, 540, 340);
 
         // Adicionar a porta
         Porta porta = new Porta();
         porta.getImage().scale(40, 60);
         addObject(porta, 540, 229);
     
+        //Adicionar a moeda 1
+        Moeda moeda1 = new Moeda();
+        moeda1.getImage().scale(20, 20);
+        addObject(moeda1, 219, 225);
+        
+        //Adicionar a moeda 2
+        Moeda moeda2 = new Moeda();
+        moeda2.getImage().scale(20, 20);
+        addObject(moeda2, 140, 340);
+        
+        //Adicionar a moeda 3
+        Moeda moeda3 = new Moeda();
+        moeda3.getImage().scale(20, 20);
+        addObject(moeda3, 380, 340);
     }
 
     public void adicionarPontos(int valor) {

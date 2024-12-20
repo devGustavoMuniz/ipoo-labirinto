@@ -46,6 +46,11 @@ public class Jogador extends Actor {
     }
 
     private void verificarColisoes() {
+        if (isTouching(Moeda.class)) {
+            removeTouching(Moeda.class);
+            ((Labirinto) getWorld()).adicionarPontos(10);
+        }
+        
         if (isTouching(Chave.class)) {
             removeTouching(Chave.class);
             ((Labirinto) getWorld()).adicionarPontos(10);
