@@ -8,7 +8,7 @@ public class Jogador extends Actor {
         imagem.scale(imagem.getWidth() / 2, imagem.getHeight() / 2);
         setImage(imagem);
 
-        backgroundMusic = new GreenfootSound("soundtrack.wav");
+        backgroundMusic = new GreenfootSound("soundtrack.aiff");
         backgroundMusic.setVolume(30); 
         backgroundMusic.playLoop(); 
     }
@@ -52,20 +52,20 @@ public class Jogador extends Actor {
         if (isTouching(Moeda.class)) {
             removeTouching(Moeda.class);
             ((Labirinto) getWorld()).adicionarPontos(10);
-            tocarSom("coin.wav", 60); 
+            tocarSom("coin.aiff", 60); 
         }
 
         if (isTouching(Chave.class)) {
             removeTouching(Chave.class);
             ((Labirinto) getWorld()).adicionarPontos(10);
-            tocarSom("pickey.wav", 60); 
+            tocarSom("pickey.aiff", 60); 
         }
 
         if (isTouching(Porta.class)) {
             Labirinto mundo = (Labirinto) getWorld();
             if (mundo.getObjects(Chave.class).isEmpty()) {
                 mundo.finalizarJogo(true);
-                tocarSom("open.wav", 60); 
+                tocarSom("open.aiff", 60); 
             }
         }
     }
