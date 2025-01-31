@@ -4,6 +4,9 @@
 # Ignorar arquivos de contexto
 *.ctxt
 
+# Ignorar arquivos greenfoot
+*.greenfoot
+
 # Ignorar arquivos do InteliJ
 .idea
 ipoo-labirinto.iml
