@@ -3,3 +3,7 @@
 
 # Ignorar arquivos de contexto
 *.ctxt
+
+# Ignorar arquivos do InteliJ
+.idea
+ipoo-labirinto.iml
