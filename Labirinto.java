@@ -67,6 +67,14 @@ public class Labirinto extends World {
         Moeda moeda3 = new Moeda();
         moeda3.getImage().scale(20, 20);
         addObject(moeda3, 380, 340);
+        
+        Tiro tiro1 = new Tiro();
+        tiro1.getImage().scale(30, 30);
+        addObject(tiro1, 540, 40);
+        
+        Inimigo inimigo1 = new Inimigo();
+        inimigo1.getImage().scale(30, 30);
+        addObject(inimigo1, 140, 340);
 
         showText("Pontos: " + pontos, 50, 20);
     }
@@ -77,11 +85,17 @@ public class Labirinto extends World {
     }
 
     public void finalizarJogo(boolean venceu) {
-        if(index + 1 > 3){
+        if (!venceu) {
             Greenfoot.setWorld(new TelaFinal(venceu, pontos));
-        } else {
-            Greenfoot.setWorld(new Labirinto(index+1, pontos));
+            return;
         }
         
+        if(index + 1 > 3){
+            Greenfoot.setWorld(new TelaFinal(venceu, pontos));
+            return;
+        }
+        
+        Greenfoot.setWorld(new Labirinto(index+1, pontos));
+        return;
     }
 }
