@@ -63,6 +63,23 @@ public class GeradoraLabirintos {
             {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
         };
 
+        // Adiciona um café, um inimigo e uma pedra em cada labirinto
+        labirinto1[2][2] = 2; // Café no labirinto 1
+        labirinto1[3][4] = 3; // Inimigo no labirinto 1
+        labirinto1[5][6] = 4; // Pedra no labirinto 1
+
+        labirinto2[3][4] = 2; // Café no labirinto 2
+        labirinto2[5][8] = 3; // Inimigo no labirinto 2
+        labirinto2[7][8] = 4; // Pedra no labirinto 2
+
+        labirinto3[5][6] = 2; // Café no labirinto 3
+        labirinto3[7][8] = 3; // Inimigo no labirinto 3
+        labirinto3[2][2] = 4; // Pedra no labirinto 3
+
+        labirinto4[7][8] = 2; // Café no labirinto 4
+        labirinto4[2][2] = 3; // Inimigo no labirinto 4
+        labirinto4[5][6] = 4; // Pedra no labirinto 4
+
         // Adiciona os labirintos à lista
         listaLabirintos.add(labirinto1);
         listaLabirintos.add(labirinto2);

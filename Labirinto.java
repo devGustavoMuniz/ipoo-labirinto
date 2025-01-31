@@ -28,9 +28,15 @@ public class Labirinto extends World {
         
         for (int linha = 0; linha < labirinto.length; linha++) {
             for (int coluna = 0; coluna < labirinto[linha].length; coluna++) {
-                if (labirinto[linha][coluna] == 1) {
-                    int[] coordenadas = converterParaCoordenadasMundo(linha, coluna);
+                int[] coordenadas = converterParaCoordenadasMundo(linha, coluna);
+                if (labirinto[linha][coluna] == 1) { // Parede
                     addObject(new Parede(), coordenadas[0], coordenadas[1]);
+                } else if (labirinto[linha][coluna] == 2) { // Café
+                    addObject(new Cafe(), coordenadas[0], coordenadas[1]);
+                } else if (labirinto[linha][coluna] == 3) { // Inimigo
+                    addObject(new Inimigo(), coordenadas[0], coordenadas[1]);
+                } else if (labirinto[linha][coluna] == 4) { // Pedra
+                    addObject(new Pedra(), coordenadas[0], coordenadas[1]);
                 }
             }
         }
