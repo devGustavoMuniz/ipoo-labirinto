@@ -32,7 +32,7 @@ public class TelaInstrucoes extends World {
         Font fontInstrucoes = new Font("Arial", true, false, 22);
         bg.setFont(fontInstrucoes);
         String instrucoes = "Instruções:\n"
-                          + "- Movimentação: W A S D\n"
+                          + "- Movimentação: setinhas\n"
                           + "- Colete chaves antigas ( ) para abrir portais\n"
                           + "- Reúna moedas de óbito para poder ancestral\n"
                           + "- Evite armadilhas mortais e guerreiros espetrais\n"

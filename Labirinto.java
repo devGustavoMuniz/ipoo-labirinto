@@ -1,17 +1,17 @@
 import greenfoot.*;
 
 public class Labirinto extends World {
-    private static final int TAMANHO_BLOCO = 40; // Tamanho de cada bloco (largura e altura)
-    private int pontos;
-    private int index;
+    private static final int TAMANHO_BLOCO = 40;
+    private GameState gameState;
+    private long tempoInicioFase;
     private int[][] labirinto;
 
-    public Labirinto(int index, int pontos) {
+    public Labirinto(GameState gameState) {
         super(600, 400, 1);
-        this.pontos = pontos;
-        this.index = index;
-        criarFundoPreto(); // Define o fundo do labirinto como preto
-        criarLabirinto(index);
+        this.gameState = gameState;
+        this.tempoInicioFase = System.currentTimeMillis();
+        criarFundoPreto();
+        criarLabirinto(gameState.getFaseAtual());
         prepare();
     }
 
@@ -24,10 +24,8 @@ public class Labirinto extends World {
 
     private void criarLabirinto(int index) {
         GeradoraLabirintos geradora = new GeradoraLabirintos();
-        // Matriz que define o labirinto (1 = parede, 0 = caminho)
         labirinto = geradora.getLabirinto(index);
-
-        // Percorrer a matriz e adicionar paredes
+        
         for (int linha = 0; linha < labirinto.length; linha++) {
             for (int coluna = 0; coluna < labirinto[linha].length; coluna++) {
                 if (labirinto[linha][coluna] == 1) {
@@ -45,45 +43,62 @@ public class Labirinto extends World {
     }
 
     private void prepare() {
-        // Adicionar o jogador fora das paredes
         Jogador jogador = new Jogador();
-        jogador.getImage().scale(30, 30); // Reduzir tamanho
-        int[] posicaoJogador = {60, 140}; // Posição inicial do jogador
+        jogador.getImage().scale(30, 30);
+        int[] posicaoJogador = {60, 140};
         addObject(jogador, posicaoJogador[0], posicaoJogador[1]);
 
-        // Adicionar a chave
         Chave chave = new Chave();
         chave.getImage().scale(20, 20);
         addObject(chave, 540, 340);
 
-        // Adicionar a porta
         Porta porta = new Porta();
         porta.getImage().scale(40, 60);
         addObject(porta, 540, 229);
 
-        // Gerar moedas no centro dos corredores
         GeradorItens gerador = new GeradorItens(labirinto, TAMANHO_BLOCO);
-        gerador.gerarItens(this, 3, Moeda.class, posicaoJogador); // Gera 3 moedas
+        gerador.gerarItens(this, 3, Moeda.class, posicaoJogador);
 
-        showText("Pontos: " + pontos, 50, 20);
+        // Exibe pontos e timer
+        atualizarHUD();
+    }
+
+    public void act() {
+        atualizarHUD();
+    }
+
+    private void atualizarHUD() {
+        // Atualiza pontos
+        showText("Pontos: " + gameState.getPontosTotais(), 50, 20);
+        
+        // Atualiza timer
+        long tempoDecorridoFaseAtual = System.currentTimeMillis() - tempoInicioFase;
+        long tempoTotalExibicao = gameState.getTempoTotal() + tempoDecorridoFaseAtual;
+        long segundos = (tempoTotalExibicao / 1000) % 60;
+        long minutos = (tempoTotalExibicao / (1000 * 60)) % 60;
+        String tempoFormatado = String.format("Tempo: %02d:%02d", minutos, segundos);
+        showText(tempoFormatado, 500, 20);
     }
 
     public void adicionarPontos(int valor) {
-        pontos += valor;
-        showText("Pontos: " + pontos, 50, 20);
+        gameState.addPontos(valor);
+        atualizarHUD();
     }
 
     public void finalizarJogo(boolean venceu) {
+        long tempoDecorrido = System.currentTimeMillis() - tempoInicioFase;
+        gameState.addTempo(tempoDecorrido);
+
         if (!venceu) {
-            Greenfoot.setWorld(new TelaFinal(venceu, pontos));
+            Greenfoot.setWorld(new TelaFinal(gameState, false));
             return;
         }
 
-        if (index + 1 > 3) {
-            Greenfoot.setWorld(new TelaFinal(venceu, pontos));
-            return;
+        if (gameState.getFaseAtual() >= 3) {
+            Greenfoot.setWorld(new TelaFinal(gameState, true));
+        } else {
+            gameState.avancarFase();
+            Greenfoot.setWorld(new Labirinto(gameState));
         }
-
-        Greenfoot.setWorld(new Labirinto(index + 1, pontos));
     }
 }
