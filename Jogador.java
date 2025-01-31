@@ -65,7 +65,9 @@ public class Jogador extends Actor {
             Labirinto mundo = (Labirinto) getWorld();
             if (mundo.getObjects(Chave.class).isEmpty()) {
                 mundo.finalizarJogo(true);
-                tocarSom("open.wav", 60); 
+                tocarSom("open.wav", 60);
+                backgroundMusic.stop(); 
+                tocarSom("victory.mp3",60);
             }
         }
     }
