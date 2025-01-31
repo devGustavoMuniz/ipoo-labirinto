@@ -28,7 +28,7 @@ public class TelaInicial extends World {
 
     public void act() {
         if (Greenfoot.isKeyDown("enter")) {
-            Greenfoot.setWorld(new Labirinto());
+            Greenfoot.setWorld(new Labirinto(0,0));
         }
         if (Greenfoot.isKeyDown("i")  || Greenfoot.isKeyDown("I")) {
             Greenfoot.setWorld(new TelaInstrucoes());

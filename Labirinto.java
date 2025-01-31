@@ -3,11 +3,13 @@ import greenfoot.*;
 public class Labirinto extends World {
     private int tamanhoBloco = 40; // Tamanho de cada bloco (largura e altura)
     private int pontos;
-    public Labirinto() {    
+    private int index;
+    public Labirinto(int index, int pontos) {    
         super(600, 400, 1);
-        pontos = 0;
+        this.pontos = pontos;
+        this.index = index;
         criarFundoPreto(); // Define o fundo do labirinto como preto
-        criarLabirinto();
+        criarLabirinto(index);
         prepare();
     }
 
@@ -18,20 +20,10 @@ public class Labirinto extends World {
         setBackground(bg);
     }
 
-    private void criarLabirinto() {
+    private void criarLabirinto(int index) {
+        GeradoraLabirintos geradora = new GeradoraLabirintos();
         // Matriz que define o labirinto (1 = parede, 0 = caminho)
-        int[][] labirinto = {
-            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-            {1,0,0,0,1,0,0,0,0,0,0,0,0,0,1},
-            {1,0,1,0,1,0,1,1,1,0,1,1,1,0,1},
-            {1,0,1,0,0,0,0,0,1,0,0,0,1,0,1},
-            {1,1,1,1,1,1,1,0,1,1,1,0,1,0,1},
-            {1,0,0,0,0,0,1,0,0,0,1,0,1,0,1},
-            {1,0,1,1,1,0,1,1,1,0,1,0,1,1,1},
-            {1,0,0,0,1,0,0,0,0,0,1,0,0,0,1},
-            {1,1,1,0,1,1,1,1,1,0,1,1,1,0,1},
-            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
-        };
+        int[][] labirinto = geradora.getLabirinto(index);
 
         // Percorrer a matriz e adicionar paredes
         for (int linha = 0; linha < labirinto.length; linha++) {
@@ -75,6 +67,8 @@ public class Labirinto extends World {
         Moeda moeda3 = new Moeda();
         moeda3.getImage().scale(20, 20);
         addObject(moeda3, 380, 340);
+
+        showText("Pontos: " + pontos, 50, 20);
     }
 
     public void adicionarPontos(int valor) {
@@ -83,6 +77,11 @@ public class Labirinto extends World {
     }
 
     public void finalizarJogo(boolean venceu) {
-        Greenfoot.setWorld(new TelaFinal(venceu, pontos));
+        if(index + 1 > 3){
+            Greenfoot.setWorld(new TelaFinal(venceu, pontos));
+        } else {
+            Greenfoot.setWorld(new Labirinto(index+1, pontos));
+        }
+        
     }
 }
