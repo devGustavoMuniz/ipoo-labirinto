@@ -69,6 +69,13 @@ public class Labirinto extends World {
             {500, 350}  // Fase 3
         };
 
+        int[][] posicoesTiro = {
+            {540, 229}, // Fase 0
+            {60, 229},  // Fase 1
+            {540, 60},  // Fase 2
+            {500, 350}  // Fase 3
+        };
+
         int faseAtual = gameState.getFaseAtual();
         
         // Garante que não ultrapasse o número de fases configuradas
@@ -83,6 +90,10 @@ public class Labirinto extends World {
         Porta porta = new Porta();
         porta.getImage().scale(40, 60);
         addObject(porta, posicoesPorta[faseAtual][0], posicoesPorta[faseAtual][1]);
+
+        Tiro tiro = new Tiro("tiro.png",10);
+        porta.getImage().scale(40, 60);
+        addObject(tiro, posicoesTiro[faseAtual][0], posicoesTiro[faseAtual][1]);
 
         // Gerar moedas (mantida a geração aleatória original)
         GeradorItens gerador = new GeradorItens(labirinto, TAMANHO_BLOCO);
