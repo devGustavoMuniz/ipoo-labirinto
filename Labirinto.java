@@ -34,9 +34,9 @@ public class Labirinto extends World {
                 } else if (labirinto[linha][coluna] == 2) { // Café
                     addObject(new Cafe(), coordenadas[0], coordenadas[1]);
                 } else if (labirinto[linha][coluna] == 3) { // Inimigo
-                    addObject(new Inimigo(), coordenadas[0], coordenadas[1]);
+                    addObject(new Inimigo("haunter.png", 30), coordenadas[0], coordenadas[1]);
                 } else if (labirinto[linha][coluna] == 4) { // Pedra
-                    addObject(new Pedra(), coordenadas[0], coordenadas[1]);
+                    addObject(new Pedra("stone.png", 35), coordenadas[0], coordenadas[1]);
                 }
             }
         }
@@ -92,7 +92,6 @@ public class Labirinto extends World {
         addObject(porta, posicoesPorta[faseAtual][0], posicoesPorta[faseAtual][1]);
 
         Tiro tiro = new Tiro("tiro.png",10);
-        porta.getImage().scale(40, 60);
         addObject(tiro, posicoesTiro[faseAtual][0], posicoesTiro[faseAtual][1]);
 
         // Gerar moedas (mantida a geração aleatória original)

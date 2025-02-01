@@ -3,13 +3,10 @@ import greenfoot.*;
 public class Inimigo extends Obstaculo {
     private int direcao;
     private int contadorMovimento = 0;
-    private GreenfootImage imagemOriginal;
 
-    public Inimigo() {
-        imagemOriginal = new GreenfootImage(getImage());
-        redimensionarImagem(imagemOriginal);
-        setImage(imagemOriginal);
-        direcao = Greenfoot.getRandomNumber(4); 
+    public Inimigo(String nomeImagem, int tamanho) {
+        super(nomeImagem, tamanho);
+        direcao = Greenfoot.getRandomNumber(4);
     }
 
     public void act() {
@@ -24,8 +21,8 @@ public class Inimigo extends Obstaculo {
             case 0: setLocation(x, y - 2); break; // Cima
             case 1: setLocation(x, y + 2); break; // Baixo
             case 2: 
-                setLocation(x - 2, y); 
-                setImage(imagemOriginal);
+                setLocation(x - 2, y);
+                setImage(getImagem());
                 break; // Esquerda
             case 3: 
                 setLocation(x + 2, y); 
@@ -50,12 +47,8 @@ public class Inimigo extends Obstaculo {
     }
     
     private void espelharImagem() {
-        GreenfootImage imagem = new GreenfootImage(imagemOriginal);
-        imagem.mirrorHorizontally();
-        setImage(imagem);
-    }
-    
-    private void redimensionarImagem(GreenfootImage imagem) {
-        imagem.scale(30, 30);
+        GreenfootImage imagemEspelhada = getImagem();
+        imagemEspelhada.mirrorHorizontally();
+        setImage(imagemEspelhada);
     }
 }

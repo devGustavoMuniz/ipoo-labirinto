@@ -2,12 +2,10 @@ import greenfoot.*;
 
 public class Tiro extends Obstaculo
 {
-    public void act()
-    {
-        mover();
+    public Tiro(String nomeImagem, int tamanho) {
+        super(nomeImagem, tamanho);
     }
-    
-    private void mover() {
+    public void mover() {
         int x = getX();
         int y = getY();
         

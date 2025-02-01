@@ -4,21 +4,23 @@ public class Jogador extends Actor {
     private GreenfootSound backgroundMusic;
     private GreenfootImage imagemOriginal;
     private boolean viradoParaDireita = true;
-    private int velocidade = 2; // Velocidade inicial do jogador
+    private int velocidade = 2;
 
     public Jogador() {
         imagemOriginal = new GreenfootImage("necro2.png");
-        imagemOriginal.scale(imagemOriginal.getWidth() / 2, imagemOriginal.getHeight() / 2);
+        imagemOriginal.scale(25, 25);
         setImage(imagemOriginal);
 
-        backgroundMusic = new GreenfootSound("soundtrack.wav");
-        backgroundMusic.setVolume(30); 
-        backgroundMusic.playLoop(); 
+        tocarSom("soundtrack.wav", 30, true);
     }
 
     public void act() {
         mover();
         verificarColisoes();
+    }
+
+    public void setBackgroundMusic (GreenfootSound som) {
+        backgroundMusic = som;
     }
 
     private void mover() {
@@ -32,8 +34,7 @@ public class Jogador extends Actor {
         boolean down = Greenfoot.isKeyDown("down");
         boolean left = Greenfoot.isKeyDown("left");
         boolean right = Greenfoot.isKeyDown("right");
-    
-        // Usa a velocidade atual para mover o jogador
+
         if (up) newY -= velocidade;
         if (down) newY += velocidade;
         if (left) {
@@ -66,62 +67,81 @@ public class Jogador extends Actor {
 
     private void virarParaEsquerda() {
         if (viradoParaDireita) {
-            GreenfootImage imagemEspelhada = new GreenfootImage(imagemOriginal);
+            GreenfootImage imagemEspelhada = imagemOriginal;
             imagemEspelhada.mirrorHorizontally();
             setImage(imagemEspelhada);
             viradoParaDireita = false;
         }
     }
 
+    private void tocarObstaculo(Labirinto mundo) {
+        mundo.finalizarJogo(false);
+        tocarSom("death.mp3", 60, false);
+        backgroundMusic.stop();
+    }
+
+    private void tocarMoeda(Labirinto mundo) {
+        mundo.adicionarPontos(10);
+        tocarSom("coin.wav", 30, false);
+        removeTouching(Moeda.class);
+    }
+
+    private void tocarChave(Labirinto mundo) {
+        mundo.adicionarPontos(10);
+        tocarSom("pickey.wav", 60, false);
+        removeTouching(Chave.class);
+    }
+
+    private void tocarPorta(Labirinto mundo) {
+        mundo.finalizarJogo(true);
+        tocarSom("open.wav", 60, false);
+        tocarSom("victory.mp3", 60, false);
+        backgroundMusic.stop();
+    }
+
+    private void tocarCafe(Labirinto mundo) {
+        mundo.adicionarPontos(200);
+        tocarSom("coffe.mp3", 60, false);
+        removeTouching(Cafe.class);
+        aumentarVelocidade();
+    }
+
     private void verificarColisoes() {
         Labirinto mundo = (Labirinto) getWorld();
-        
-        // Verifica colisão com obstáculos
+
         if (isTouching(Obstaculo.class)) {
-            mundo.finalizarJogo(false);
-            tocarSom("death.mp3", 60);
-            backgroundMusic.stop();
+            tocarObstaculo(mundo);
         }
 
-        // Verifica colisão com moedas
         if (isTouching(Moeda.class)) {
-            removeTouching(Moeda.class);
-            mundo.adicionarPontos(10);
-            tocarSom("coin.wav", 60); 
+            tocarMoeda(mundo);
         }
 
-        // Verifica colisão com a chave
         if (isTouching(Chave.class)) {
-            removeTouching(Chave.class);
-            mundo.adicionarPontos(10);
-            tocarSom("pickey.wav", 60); 
+            tocarChave(mundo);
         }
 
-        // Verifica colisão com a porta (se o jogador tem a chave)
         if (isTouching(Porta.class) && mundo.getObjects(Chave.class).isEmpty()) {
-            mundo.finalizarJogo(true);
-            tocarSom("open.wav", 60);
-            backgroundMusic.stop(); 
-            tocarSom("victory.mp3", 60);
+            tocarPorta(mundo);
         }
 
-        // Verifica colisão com o café
         if (isTouching(Cafe.class)) {
-            removeTouching(Cafe.class);
-            mundo.adicionarPontos(200); // Ganha 200 pontos ao pegar o café
-            aumentarVelocidade(); // Aumenta a velocidade do jogador
-            tocarSom("coffe.mp3", 60); // Toca o som do café
+            tocarCafe(mundo);
         }
     }
 
-    // Aumenta a velocidade do jogador
     private void aumentarVelocidade() {
-        velocidade += 1; // Aumenta a velocidade em 1 unidade
+        velocidade += 1;
     }
 
-    private void tocarSom(String arquivo, int volume) {
+    private void tocarSom(String arquivo, int volume, boolean isLoop) {
         GreenfootSound som = new GreenfootSound(arquivo);
-        som.setVolume(volume); 
-        som.play(); 
+        som.setVolume(volume);
+        if (isLoop) {
+            som.playLoop();
+            setBackgroundMusic(som);
+            return;
+        }
+        som.play();
     }
 }
