@@ -66,7 +66,7 @@ public class Labirinto extends World {
             {540, 229}, // Fase 0
             {60, 229},  // Fase 1
             {540, 60},  // Fase 2
-            {500, 380}  // Fase 3
+            {500, 350}  // Fase 3
         };
 
         int faseAtual = gameState.getFaseAtual();
