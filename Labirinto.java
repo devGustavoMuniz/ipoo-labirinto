@@ -54,18 +54,40 @@ public class Labirinto extends World {
         int[] posicaoJogador = {60, 140};
         addObject(jogador, posicaoJogador[0], posicaoJogador[1]);
 
+        // Posições fixas por fase
+        int[][] posicoesChave = {
+            {540, 340}, // Fase 0
+            {540, 60},  // Fase 1
+            {60, 310},  // Fase 2
+            {300, 215}  // Fase 3
+        };
+
+        int[][] posicoesPorta = {
+            {540, 229}, // Fase 0
+            {60, 229},  // Fase 1
+            {540, 60},  // Fase 2
+            {500, 380}  // Fase 3
+        };
+
+        int faseAtual = gameState.getFaseAtual();
+        
+        // Garante que não ultrapasse o número de fases configuradas
+        faseAtual = Math.min(faseAtual, posicoesChave.length - 1);
+
+        // Adicionar chave
         Chave chave = new Chave();
         chave.getImage().scale(20, 20);
-        addObject(chave, 540, 340);
+        addObject(chave, posicoesChave[faseAtual][0], posicoesChave[faseAtual][1]);
 
+        // Adicionar porta
         Porta porta = new Porta();
         porta.getImage().scale(40, 60);
-        addObject(porta, 540, 229);
+        addObject(porta, posicoesPorta[faseAtual][0], posicoesPorta[faseAtual][1]);
 
+        // Gerar moedas (mantida a geração aleatória original)
         GeradorItens gerador = new GeradorItens(labirinto, TAMANHO_BLOCO);
         gerador.gerarItens(this, 3, Moeda.class, posicaoJogador);
-
-        // Exibe pontos e timer
+        
         atualizarHUD();
     }
 
